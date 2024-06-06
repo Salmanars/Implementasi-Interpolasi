@@ -1,0 +1,27 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.interpolate import lagrange
+from scipy.interpolate import BarycentricInterpolator
+
+tegangan = np.array([5, 10, 15, 20, 25, 30, 35, 40])
+waktu_patah = np.array([40, 30, 25, 40, 18, 20, 22, 15])
+
+poly_lagrange = lagrange(tegangan, waktu_patah)
+
+poly_newton = BarycentricInterpolator(tegangan, waktu_patah)
+
+x_range = np.linspace(5, 40, 400)
+
+y_lagrange = [poly_lagrange(x) for x in x_range]
+y_newton = [poly_newton(x) for x in x_range]
+
+plt.figure(figsize=(10, 6))
+plt.plot(tegangan, waktu_patah, 'o', label='Data', markersize=8)
+plt.plot(x_range, y_lagrange, color='red', label='Interpolasi Lagrange')
+plt.plot(x_range, y_newton, '--', color='green', label='Interpolasi Newton')
+plt.xlabel('Tegangan')
+plt.ylabel('Waktu Patah')
+plt.title('Interpolasi Polinomial Lagrange dan Newton')
+plt.legend()
+plt.grid(True)
+plt.show()
